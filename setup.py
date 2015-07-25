@@ -6,7 +6,7 @@ import os
 # Installed name used for various commands (both script and setuptools).
 command_name = os.environ.get('CIU_ALT_NAME') or 'caniusepypy'
 
-with open('README_PyPI.rst') as file:
+with open('README.rst') as file:
     long_description = file.read()
 
 with open('dev_requirements.txt') as file:
