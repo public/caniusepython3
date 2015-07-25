@@ -67,27 +67,6 @@ def overrides():
     return json.loads(raw_bytes.decode('utf-8'))
 
 
-def py3_classifiers():
-    """Fetch the Python 3-related trove classifiers."""
-    url = 'https://pypi.python.org/pypi?%3Aaction=list_classifiers'
-    response = urllib_request.urlopen(url)
-    try:
-        try:
-            status = response.status
-        except AttributeError:  #pragma: no cover
-            status = response.code
-        if status != 200:  #pragma: no cover
-            msg = 'PyPI responded with status {0} for {1}'.format(status, url)
-            raise ValueError(msg)
-        data = response.read()
-    finally:
-        response.close()
-    classifiers = data.decode('utf-8').splitlines()
-    base_classifier = 'Programming Language :: Python :: 3'
-    return (classifier for classifier in classifiers
-            if classifier.startswith(base_classifier))
-
-
 def pypy_classifiers():
     """Fetch the Python 3-related trove classifiers."""
     url = 'https://pypi.python.org/pypi?%3Aaction=list_classifiers'
