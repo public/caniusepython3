@@ -76,3 +76,12 @@ class NetworkTests(unittest.TestCase):
         projects = pypi.all_projects()
         self.assertTrue(all(project == project.lower() for project in projects))
         self.assertGreaterEqual(len(projects), 40000)
+
+    def test_is_pure_python(self):
+        self.assertTrue(pypi.is_pure_python('urllib3'))
+
+    def test_is_not_pure_python(self):
+        self.assertFalse(pypi.is_pure_python('cryptography'))
+
+    def test_pure_python_with_no_wheels(self):
+        self.assertFalse(pypi.is_pure_python('ipaddr'))
