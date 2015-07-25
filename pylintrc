@@ -1,5 +1,0 @@
-[MASTER]
-load-plugins=caniusepypy.pylint_checker
-
-[REPORTS]
-reports=no
