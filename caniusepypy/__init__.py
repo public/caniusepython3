@@ -16,8 +16,8 @@
 
 from __future__ import unicode_literals
 
-from caniusepython3 import __main__ as main
-from caniusepython3 import pypi
+from caniusepypy import __main__ as main
+from caniusepypy import pypi
 
 import multiprocessing
 
@@ -43,10 +43,10 @@ def check(requirements_paths=[], metadata=[], projects=[]):
     dependencies.extend(projects)
     dependencies = set(name.lower() for name in dependencies)
 
-    py3_projects = pypi.all_py3_projects()
+    pypy_projects = pypi.all_pypy_projects()
     all_projects = pypi.all_projects()
 
     for dependency in dependencies:
-        if dependency in all_projects and dependency not in py3_projects:
+        if dependency in all_projects and dependency not in pypy_projects:
             return False
     return True

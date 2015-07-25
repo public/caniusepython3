@@ -15,9 +15,9 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import caniusepython3 as ciu
-from caniusepython3 import pypi
-from caniusepython3 import dependencies
+import caniusepypy as ciu
+from caniusepypy import pypi
+from caniusepypy import dependencies
 
 import distlib.metadata
 import pip.download
@@ -116,12 +116,12 @@ def message(blockers):
         else:
             flair = ''
         return [flair +
-                'You have 0 projects blocking you from using Python 3!']
+                'You have 0 projects blocking you from using PyPy!']
     flattened_blockers = set()
     for blocker_reasons in blockers:
         for blocker in blocker_reasons:
             flattened_blockers.add(blocker)
-    need = 'You need {0} project{1} to transition to Python 3.'
+    need = 'You need {0} project{1} to transition to PyPy.'
     formatted_need = need.format(len(flattened_blockers),
                       's' if len(flattened_blockers) != 1 else '')
     can_port = ('Of {0} {1} project{2}, {3} {4} no direct dependencies '
@@ -164,7 +164,7 @@ def check(projects):
     log = logging.getLogger('ciu')
     log.info('{0} top-level projects to check'.format(len(projects)))
     print('Finding and checking dependencies ...')
-    blockers = dependencies.blocking_dependencies(projects, pypi.all_py3_projects())
+    blockers = dependencies.blocking_dependencies(projects, pypi.all_pypy_projects())
 
     print('')
     for line in message(blockers):

@@ -67,7 +67,7 @@ def overrides():
     return json.loads(raw_bytes.decode('utf-8'))
 
 
-def py3_classifiers():
+def pypy_classifiers():
     """Fetch the Python 3-related trove classifiers."""
     url = 'https://pypi.python.org/pypi?%3Aaction=list_classifiers'
     response = urllib_request.urlopen(url)
@@ -83,7 +83,7 @@ def py3_classifiers():
     finally:
         response.close()
     classifiers = data.decode('utf-8').splitlines()
-    base_classifier = 'Programming Language :: Python :: 3'
+    base_classifier = 'Programming Language :: Python :: Implementation :: PyPy'
     return (classifier for classifier in classifiers
             if classifier.startswith(base_classifier))
 
@@ -102,14 +102,22 @@ def projects_matching_classifier(classifier):
             return []
 
 
-def all_py3_projects(manual_overrides=None):
-    """Return the set of names of all projects ported to Python 3, lowercased."""
+def all_projects():
+    """Get the set of all projects on PyPI."""
+    log = logging.getLogger('ciu')
+    with pypi_client() as client:
+        log.info('Fetching all project names from PyPI')
+        return frozenset(name.lower() for name in client.list_packages())
+
+
+def all_pypy_projects(manual_overrides=None):
+    """Return the set of names of all projects ported to PyPy, lowercased."""
     log = logging.getLogger('ciu')
     projects = set()
     thread_pool_executor = concurrent.futures.ThreadPoolExecutor(
             max_workers=CPU_COUNT)
     with thread_pool_executor as executor:
-        for result in map(projects_matching_classifier, py3_classifiers()):
+        for result in map(projects_matching_classifier, pypy_classifiers()):
             projects.update(result)
     if manual_overrides is None:
         manual_overrides = overrides()
@@ -127,11 +135,3 @@ def all_py3_projects(manual_overrides=None):
         log.warning('Stale overrides: {0}'.format(stale_overrides))
     projects.update(manual_overrides)
     return projects
-
-
-def all_projects():
-    """Get the set of all projects on PyPI."""
-    log = logging.getLogger('ciu')
-    with pypi_client() as client:
-        log.info('Fetching all project names from PyPI')
-        return frozenset(name.lower() for name in client.list_packages())

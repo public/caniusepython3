@@ -15,8 +15,8 @@
 from __future__ import unicode_literals
 import distlib.locators
 
-from caniusepython3 import dependencies
-from caniusepython3.test import mock, unittest
+from caniusepypy import dependencies
+from caniusepypy.test import mock, unittest
 
 import io
 
@@ -52,7 +52,7 @@ class GraphResolutionTests(unittest.TestCase):
 
 class BlockingDependenciesTests(unittest.TestCase):
 
-    @mock.patch('caniusepython3.dependencies.dependencies')
+    @mock.patch('caniusepypy.dependencies.dependencies')
     def test_recursion(self, dependencies_mock):
         deps = {'a': ['b'], 'b': ['a']}
         dependencies_mock.side_effect = lambda name: deps[name]
@@ -62,24 +62,24 @@ class BlockingDependenciesTests(unittest.TestCase):
     def test_blocking_dependencies_locators_fails(self):
         # Testing the work around for //bitbucket.org/pypa/distlib/issue/59/ .
         with mock.patch.object(distlib.locators, 'locate') as locate_mock:
-            py3 = {'py3_project': ''}
+            pypy = {'pypy_project': ''}
             breaking_project = 'test_project'
             locate_mock.side_effect = AttributeError()
-            got = dependencies.blocking_dependencies([breaking_project], py3)
-            # If you'd like to test that a message is logged we can use 
+            got = dependencies.blocking_dependencies([breaking_project], pypy)
+            # If you'd like to test that a message is logged we can use
             # testfixtures.LogCapture or stdout redirects.
 
 
 class NetworkTests(unittest.TestCase):
 
-    def test_blocking_dependencies(self):
-        got = dependencies.blocking_dependencies(['pastescript'], {'paste': ''})
-        want = frozenset([('pastedeploy', 'pastescript')])
-        self.assertEqual(frozenset(got), want)
-
     def test_dependencies(self):
-        got = dependencies.dependencies('pastescript')
-        self.assertEqual(set(got), frozenset(['pastedeploy', 'paste']))
+        got = dependencies.dependencies('cryptography')
+        self.assertEqual(
+            set(got),
+            frozenset([
+                'setuptools', 'cffi', 'ipaddress', 'pyasn1', 'idna', 'enum34',
+                'six'])
+        )
 
     def test_dependencies_no_project(self):
         got = dependencies.dependencies('sdflksjdfsadfsadfad')
