@@ -30,8 +30,8 @@ FooProject >= 1.2
 Fizzy [foo, bar]
 PickyThing<1.6,>1.9,!=1.9.6,<2.0a0,==2.4c1
 Hello
--e git+https://github.com/brettcannon/caniusepypy#egg=caniusepython3
-file:../caniusepypy#egg=caniusepython3
+-e git+https://github.com/public/caniusepypy#egg=caniusepypy
+file:../caniusepypy#egg=caniusepypy
 # Docs say to specify an #egg argument, but apparently it's optional.
 file:../../lib/project
 """
@@ -133,7 +133,7 @@ class CLITests(unittest.TestCase):
         blockers = [['A'], ['B']]
         messages = ciu_main.message(blockers)
         self.assertEqual(2, len(messages))
-        want = 'You need 2 projects to transition to Python 3.'
+        want = 'You need 2 projects to transition to PyPy.'
         self.assertEqual(messages[0], want)
         want = ('Of those 2 projects, 2 have no direct dependencies blocking '
                 'their transition:')
@@ -143,7 +143,7 @@ class CLITests(unittest.TestCase):
         blockers = [['A']]
         messages = ciu_main.message(blockers)
         self.assertEqual(2, len(messages))
-        want = 'You need 1 project to transition to Python 3.'
+        want = 'You need 1 project to transition to PyPy.'
         self.assertEqual(messages[0], want)
         want = ('Of that 1 project, 1 has no direct dependencies blocking '
                 'its transition:')
@@ -153,14 +153,14 @@ class CLITests(unittest.TestCase):
     def test_message_no_blockers_flair_on_utf8_terminal(self, mock_stdout):
         mock_stdout.encoding = 'UTF-8'
         messages = ciu_main.message([])
-        expected = ['\U0001f389  You have 0 projects blocking you from using Python 3!']
+        expected = ['\U0001f389  You have 0 projects blocking you from using PyPy!']
         self.assertEqual(expected, messages)
 
     @mock.patch('sys.stdout', autospec=True)
     def test_message_no_blockers(self, mock_stdout):
         mock_stdout.encoding = None
         messages = ciu_main.message([])
-        expected = ['You have 0 projects blocking you from using Python 3!']
+        expected = ['You have 0 projects blocking you from using PyPy!']
         self.assertEqual(expected, messages)
 
     def test_pprint_blockers(self):
@@ -195,9 +195,9 @@ class NetworkTests(unittest.TestCase):
 
     @mock.patch('sys.stdout', io.StringIO())
     def test_e2e(self):
-        # Make sure at least one project that will never be in Python 3 is
+        # Make sure at least one project that will never be in PyPy is
         # included.
-        args = '--projects', 'numpy', 'scipy', 'matplotlib', 'ipython', 'paste'
+        args = '--projects', 'numpy', 'scipy', 'cryptography'
         ciu_main.main(args)
 
 

@@ -52,24 +52,24 @@ class OverridesTests(unittest.TestCase):
 
 class NetworkTests(unittest.TestCase):
 
-    def py3_classifiers(self):
-        key_classifier = 'Programming Language :: Python :: 3'
-        classifiers = frozenset(pypi.py3_classifiers())
+    def pypy_classifiers(self):
+        key_classifier = 'Programming Language :: Python :: Implementation :: PyPy'
+        classifiers = frozenset(pypi.pypy_classifiers())
         self.asssertIn(key_classifier, classifiers)
         self.assertGreaterEqual(len(classifiers), 5)
         for classifier in classifiers:
             self.assertTrue(classifier.startswith(key_classifier))
 
 
-    def test_all_py3_projects(self):
-        projects = pypi.all_py3_projects()
-        self.assertGreater(len(projects), 3000)
+    def test_all_pypy_projects(self):
+        projects = pypi.all_pypy_projects()
+        self.assertGreater(len(projects), 300)
         self.assertTrue(all(project == project.lower() for project in projects))
         self.assertTrue(frozenset(pypi.overrides().keys()).issubset(projects))
 
-    def test_all_py3_projects_explicit_overrides(self):
+    def test_all_pypy_projects_explicit_overrides(self):
         added_port = 'asdfasdfasdfadsffffdasfdfdfdf'
-        projects = pypi.all_py3_projects(set([added_port]))
+        projects = pypi.all_pypy_projects(set([added_port]))
         self.assertIn(added_port, projects)
 
     def test_all_projects(self):

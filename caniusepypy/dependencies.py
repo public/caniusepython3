@@ -71,10 +71,10 @@ def dependencies(project_name):
     return deps
 
 
-def blocking_dependencies(projects, py3_projects):
+def blocking_dependencies(projects, pypy_projects):
     """Starting from 'projects', find all projects which are blocking Python 3 usage.
 
-    Any project in 'py3_projects' is considered ported and thus will not have
+    Any project in 'pypy_projects' is considered ported and thus will not have
     its dependencies searched. Version requirements are also ignored as it is
     assumed that if a project is updating to support Python 3 then they will be
     willing to update to the latest version of their dependencies. The only
@@ -96,7 +96,7 @@ def blocking_dependencies(projects, py3_projects):
             log.warning('{0} not found'.format(project))
             continue
         project = dist.name.lower()  # PyPI can be forgiving about name formats.
-        if project not in py3_projects:
+        if project not in pypy_projects:
             check.append(project)
     reasons = LowerDict((project, None) for project in check)
     thread_pool_executor = concurrent.futures.ThreadPoolExecutor(
@@ -119,7 +119,7 @@ def blocking_dependencies(projects, py3_projects):
                         continue
                     else:
                         evaluated.add(dep)
-                    if dep in py3_projects:
+                    if dep in pypy_projects:
                         continue
                     reasons[dep] = parent
                     new_check.append(dep)

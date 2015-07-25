@@ -37,7 +37,7 @@ class CheckTest(unittest.TestCase):
     # a False answer since unknown projects are skipped.
 
     def test_success(self):
-        self.assertTrue(ciu.check(projects=['scipy', 'numpy', 'ipython']))
+        self.assertTrue(ciu.check(projects=['cryptography']))
 
     def test_failure(self):
         self.assertFalse(ciu.check(projects=['Twisted']))

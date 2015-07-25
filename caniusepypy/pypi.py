@@ -102,33 +102,6 @@ def projects_matching_classifier(classifier):
             return []
 
 
-def all_py3_projects(manual_overrides=None):
-    """Return the set of names of all projects ported to Python 3, lowercased."""
-    log = logging.getLogger('ciu')
-    projects = set()
-    thread_pool_executor = concurrent.futures.ThreadPoolExecutor(
-            max_workers=CPU_COUNT)
-    with thread_pool_executor as executor:
-        for result in map(projects_matching_classifier, py3_classifiers()):
-            projects.update(result)
-    if manual_overrides is None:
-        manual_overrides = overrides()
-    stale_overrides = projects.intersection(manual_overrides)
-    log.info('Adding {0} overrides:'.format(len(manual_overrides)))
-    for override in sorted(manual_overrides):
-        msg = override
-        try:
-            msg += ' ({0})'.format(manual_overrides[override])
-        except TypeError:
-            # No reason a set can't be used.
-            pass
-        log.info('    ' + msg)
-    if stale_overrides:  #pragma: no cover
-        log.warning('Stale overrides: {0}'.format(stale_overrides))
-    projects.update(manual_overrides)
-    return projects
-
-
 def all_projects():
     """Get the set of all projects on PyPI."""
     log = logging.getLogger('ciu')

@@ -164,7 +164,7 @@ def check(projects):
     log = logging.getLogger('ciu')
     log.info('{0} top-level projects to check'.format(len(projects)))
     print('Finding and checking dependencies ...')
-    blockers = dependencies.blocking_dependencies(projects, pypi.all_py3_projects())
+    blockers = dependencies.blocking_dependencies(projects, pypi.all_pypy_projects())
 
     print('')
     for line in message(blockers):
