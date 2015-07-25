@@ -16,8 +16,8 @@ from __future__ import unicode_literals
 
 import distlib.locators
 
-import caniusepython3 as ciu
-from caniusepython3 import pypi
+import caniusepypy as ciu
+from caniusepypy import pypi
 
 import concurrent.futures
 import logging

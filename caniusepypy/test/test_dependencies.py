@@ -15,8 +15,8 @@
 from __future__ import unicode_literals
 import distlib.locators
 
-from caniusepython3 import dependencies
-from caniusepython3.test import mock, unittest
+from caniusepypy import dependencies
+from caniusepypy.test import mock, unittest
 
 import io
 
@@ -52,7 +52,7 @@ class GraphResolutionTests(unittest.TestCase):
 
 class BlockingDependenciesTests(unittest.TestCase):
 
-    @mock.patch('caniusepython3.dependencies.dependencies')
+    @mock.patch('caniusepypy.dependencies.dependencies')
     def test_recursion(self, dependencies_mock):
         deps = {'a': ['b'], 'b': ['a']}
         dependencies_mock.side_effect = lambda name: deps[name]
@@ -66,7 +66,7 @@ class BlockingDependenciesTests(unittest.TestCase):
             breaking_project = 'test_project'
             locate_mock.side_effect = AttributeError()
             got = dependencies.blocking_dependencies([breaking_project], py3)
-            # If you'd like to test that a message is logged we can use 
+            # If you'd like to test that a message is logged we can use
             # testfixtures.LogCapture or stdout redirects.
 
 

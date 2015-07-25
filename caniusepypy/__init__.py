@@ -16,8 +16,8 @@
 
 from __future__ import unicode_literals
 
-from caniusepython3 import __main__ as main
-from caniusepython3 import pypi
+from caniusepypy import __main__ as main
+from caniusepypy import pypi
 
 import multiprocessing
 

@@ -14,8 +14,8 @@
 
 from __future__ import unicode_literals
 
-import caniusepython3 as ciu
-from caniusepython3.test import unittest
+import caniusepypy as ciu
+from caniusepypy.test import unittest
 
 import tempfile
 
@@ -23,7 +23,7 @@ EXAMPLE_METADATA = """Metadata-Version: 1.2
 Name: TestingMetadata
 Version: 0.5
 Summary: testing
-Home-page: http://github.com/brettcannon/caniusepython3
+Home-page: http://github.com/brettcannon/caniusepypy
 Author: Brett Cannon
 Author-email: brett@python.org
 License: Apache

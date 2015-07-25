@@ -13,7 +13,7 @@
 # limitations under the License.
 from __future__ import absolute_import, unicode_literals
 
-from caniusepython3.test import unittest
+from caniusepypy.test import unittest
 
 ALL_GOOD = True
 try:
@@ -25,7 +25,7 @@ try:
     from pylint import testutils
     from pylint.testutils import CheckerTestCase
 
-    from caniusepython3.pylint_checker import StrictPython3Checker, UnicodeChecker
+    from caniusepypy.pylint_checker import StrictPython3Checker, UnicodeChecker
 except (ImportError, SyntaxError):
     ALL_GOOD = False
     CheckerTestCase = unittest.TestCase

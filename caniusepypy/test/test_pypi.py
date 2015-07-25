@@ -14,8 +14,8 @@
 
 from __future__ import unicode_literals
 
-from caniusepython3 import pypi
-from caniusepython3.test import unittest
+from caniusepypy import pypi
+from caniusepypy.test import unittest
 
 
 class NameTests(unittest.TestCase):

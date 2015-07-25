@@ -15,9 +15,9 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import caniusepython3 as ciu
-from caniusepython3 import pypi
-from caniusepython3 import dependencies
+import caniusepypy as ciu
+from caniusepypy import pypi
+from caniusepypy import dependencies
 
 import distlib.metadata
 import pip.download

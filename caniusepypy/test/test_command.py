@@ -14,8 +14,8 @@
 
 from __future__ import unicode_literals
 
-from caniusepython3 import command
-from caniusepython3.test import unittest
+from caniusepypy import command
+from caniusepypy.test import unittest
 
 from distutils import dist
 

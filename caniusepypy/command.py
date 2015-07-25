@@ -16,14 +16,14 @@ from __future__ import unicode_literals
 
 import setuptools
 
-import caniusepython3 as ciu
-import caniusepython3.__main__ as ciu_main
-from caniusepython3 import pypi
+import caniusepypy as ciu
+import caniusepypy.__main__ as ciu_main
+from caniusepypy import pypi
 
 
 class Command(setuptools.Command):
 
-    description = """Run caniusepython3 over a setup.py file."""
+    description = """Run caniusepypy over a setup.py file."""
 
     user_options = []
 

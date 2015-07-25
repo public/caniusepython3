@@ -14,8 +14,8 @@
 
 from __future__ import unicode_literals
 
-import caniusepython3.__main__ as ciu_main
-from caniusepython3.test import mock, unittest
+import caniusepypy.__main__ as ciu_main
+from caniusepypy.test import mock, unittest
 
 import io
 import logging
@@ -30,8 +30,8 @@ FooProject >= 1.2
 Fizzy [foo, bar]
 PickyThing<1.6,>1.9,!=1.9.6,<2.0a0,==2.4c1
 Hello
--e git+https://github.com/brettcannon/caniusepython3#egg=caniusepython3
-file:../caniusepython3#egg=caniusepython3
+-e git+https://github.com/brettcannon/caniusepypy#egg=caniusepython3
+file:../caniusepypy#egg=caniusepython3
 # Docs say to specify an #egg argument, but apparently it's optional.
 file:../../lib/project
 """
