@@ -48,5 +48,6 @@ def check(requirements_paths=[], metadata=[], projects=[]):
 
     for dependency in dependencies:
         if dependency in all_projects and dependency not in pypy_projects:
-            return False
+            if not pypi.is_pure_python(dependency):
+                return False
     return True
