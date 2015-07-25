@@ -116,12 +116,12 @@ def message(blockers):
         else:
             flair = ''
         return [flair +
-                'You have 0 projects blocking you from using Python 3!']
+                'You have 0 projects blocking you from using PyPy!']
     flattened_blockers = set()
     for blocker_reasons in blockers:
         for blocker in blocker_reasons:
             flattened_blockers.add(blocker)
-    need = 'You need {0} project{1} to transition to Python 3.'
+    need = 'You need {0} project{1} to transition to PyPy.'
     formatted_need = need.format(len(flattened_blockers),
                       's' if len(flattened_blockers) != 1 else '')
     can_port = ('Of {0} {1} project{2}, {3} {4} no direct dependencies '

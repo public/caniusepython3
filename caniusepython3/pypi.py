@@ -88,6 +88,27 @@ def py3_classifiers():
             if classifier.startswith(base_classifier))
 
 
+def pypy_classifiers():
+    """Fetch the Python 3-related trove classifiers."""
+    url = 'https://pypi.python.org/pypi?%3Aaction=list_classifiers'
+    response = urllib_request.urlopen(url)
+    try:
+        try:
+            status = response.status
+        except AttributeError:  #pragma: no cover
+            status = response.code
+        if status != 200:  #pragma: no cover
+            msg = 'PyPI responded with status {0} for {1}'.format(status, url)
+            raise ValueError(msg)
+        data = response.read()
+    finally:
+        response.close()
+    classifiers = data.decode('utf-8').splitlines()
+    base_classifier = 'Programming Language :: Python :: Implementation :: PyPy'
+    return (classifier for classifier in classifiers
+            if classifier.startswith(base_classifier))
+
+
 def projects_matching_classifier(classifier):
     """Find all projects matching the specified trove classifier."""
     log = logging.getLogger('ciu')
@@ -135,3 +156,30 @@ def all_projects():
     with pypi_client() as client:
         log.info('Fetching all project names from PyPI')
         return frozenset(name.lower() for name in client.list_packages())
+
+
+def all_pypy_projects(manual_overrides=None):
+    """Return the set of names of all projects ported to PyPy, lowercased."""
+    log = logging.getLogger('ciu')
+    projects = set()
+    thread_pool_executor = concurrent.futures.ThreadPoolExecutor(
+            max_workers=CPU_COUNT)
+    with thread_pool_executor as executor:
+        for result in map(projects_matching_classifier, pypy_classifiers()):
+            projects.update(result)
+    if manual_overrides is None:
+        manual_overrides = overrides()
+    stale_overrides = projects.intersection(manual_overrides)
+    log.info('Adding {0} overrides:'.format(len(manual_overrides)))
+    for override in sorted(manual_overrides):
+        msg = override
+        try:
+            msg += ' ({0})'.format(manual_overrides[override])
+        except TypeError:
+            # No reason a set can't be used.
+            pass
+        log.info('    ' + msg)
+    if stale_overrides:  #pragma: no cover
+        log.warning('Stale overrides: {0}'.format(stale_overrides))
+    projects.update(manual_overrides)
+    return projects

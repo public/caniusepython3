@@ -43,10 +43,10 @@ def check(requirements_paths=[], metadata=[], projects=[]):
     dependencies.extend(projects)
     dependencies = set(name.lower() for name in dependencies)
 
-    py3_projects = pypi.all_py3_projects()
+    pypy_projects = pypi.all_pypy_projects()
     all_projects = pypi.all_projects()
 
     for dependency in dependencies:
-        if dependency in all_projects and dependency not in py3_projects:
+        if dependency in all_projects and dependency not in pypy_projects:
             return False
     return True
