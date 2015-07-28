@@ -135,3 +135,25 @@ def all_pypy_projects(manual_overrides=None):
         log.warning('Stale overrides: {0}'.format(stale_overrides))
     projects.update(manual_overrides)
     return projects
+
+
+def is_pure_python(dependency):
+    with pypi_client() as client:
+        releases = client.package_releases(dependency)
+
+        if not releases:
+            return False
+
+        latest = releases[-1]
+        downloads = client.release_urls(dependency, latest)
+
+        for download in downloads:
+            if (
+                download['packagetype'] == "bdist_wheel" and
+                (
+                    "py2.py3-none-any" in download['url'] or
+                    "py2.none-any" in download['url']
+                )
+            ):
+                return True
+        return False

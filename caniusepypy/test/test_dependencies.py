@@ -95,5 +95,6 @@ class NetworkTests(unittest.TestCase):
         got = dependencies.blocking_dependencies([abnormal_name], py3)
         self.assertEqual(got, frozenset())
 
+
 if __name__ == '__main__':
     unittest.main()

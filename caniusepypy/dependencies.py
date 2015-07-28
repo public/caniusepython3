@@ -72,11 +72,11 @@ def dependencies(project_name):
 
 
 def blocking_dependencies(projects, pypy_projects):
-    """Starting from 'projects', find all projects which are blocking Python 3 usage.
+    """Starting from 'projects', find all projects which are blocking PyPy usage.
 
     Any project in 'pypy_projects' is considered ported and thus will not have
     its dependencies searched. Version requirements are also ignored as it is
-    assumed that if a project is updating to support Python 3 then they will be
+    assumed that if a project is updating to support PyPy then they will be
     willing to update to the latest version of their dependencies. The only
     dependencies checked are those required to run the project.
 
@@ -92,15 +92,20 @@ def blocking_dependencies(projects, pypy_projects):
             # This is a work around. //bitbucket.org/pypa/distlib/issue/59/ .
             log.warning('{0} found but had to be skipped.'.format(project))
             continue
+
         if not dist:
             log.warning('{0} not found'.format(project))
             continue
+
         project = dist.name.lower()  # PyPI can be forgiving about name formats.
+
         if project not in pypy_projects:
             check.append(project)
-    reasons = LowerDict((project, None) for project in check)
+
+    reasons = LowerDict((project, None) for project in check if not pypi.is_pure_python(project))
     thread_pool_executor = concurrent.futures.ThreadPoolExecutor(
             max_workers=ciu.CPU_COUNT)
+
     with thread_pool_executor as executor:
         while len(check) > 0:
             new_check = []
@@ -111,7 +116,9 @@ def blocking_dependencies(projects, pypy_projects):
                     # can't port.
                     del reasons[parent]
                     continue
+
                 log.info('Dependencies of {0}: {1}'.format(project, deps))
+
                 for dep in deps:
                     log.info('Checking dependency: {0} ...'.format(dep))
                     if dep in evaluated:
@@ -119,9 +126,13 @@ def blocking_dependencies(projects, pypy_projects):
                         continue
                     else:
                         evaluated.add(dep)
+
                     if dep in pypy_projects:
                         continue
-                    reasons[dep] = parent
+
+                    if not pypi.is_pure_python(dep):
+                        reasons[dep] = parent
+
                     new_check.append(dep)
             check = new_check
     return reasons_to_paths(reasons)
