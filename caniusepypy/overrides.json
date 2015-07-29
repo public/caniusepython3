@@ -1,2 +1,11 @@
 {
+    "pydispatcher": "http://pydispatcher.sourceforge.net",
+    "py": "https://bitbucket.org/hpk42/py/issues",
+    "werkzeug": "http://werkzeug.pocoo.org/",
+    "twisted": "https://twistedmatrix.com/",
+    "txaws": "https://launchpad.net/txaws",
+    "txjson-rpc": "http://launchpad.net/txjsonrpc",
+    "unihandecode": "https://github.com/miurahr/unihandecode",
+    "pytest-localserver": "http://bitbucket.org/basti/pytest-localserver/",
+    "setuptools_trial": "http://allmydata.org/trac/setuptools_trial"
 }
