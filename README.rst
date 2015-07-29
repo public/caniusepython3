@@ -2,7 +2,18 @@ Can I Use PyPy?
 ================
 
 This script takes in a set of dependencies and then figures out which
-of them are holding you up from porting to PyPy.
+of them are holding you up from running your code on PyPy.
+
+It mostly works in the same manner as caniusepython3. That is, it assumes any project with
+particular PyPI tags can be considered to be fully working under PyPy. Additionally it checks if a
+package is shipped with pure python Wheels and if so considers this package, but not it's
+dependencies to not block PyPy compatibility even if the PyPI tags are absent.
+
+In general any pure Python code should run great on PyPy. This project is here to help you figure
+out which of the mess of dependencies you have is either actually tested on PyPy, or just very
+likely to work. One notable problem with the current approach is that many people still have not
+pushed Wheels for their project to PyPI. This means we also need to rely on an overrides file to
+get accurate results. Please contribute to it :)
 
 Command-line/Web Usage
 ----------------------
